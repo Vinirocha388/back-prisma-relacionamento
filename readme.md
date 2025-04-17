@@ -1,5 +1,4 @@
-# NoteHub
-
+# 💻 Back-End Relacionamento
 Bem-vindo ao repositório do NoteHub! Este guia irá ajudá-lo a configurar e executar o projeto localmente.
 
 ## Pré-requisitos
@@ -13,8 +12,8 @@ Certifique-se de ter o seguinte instalado em sua máquina:
 1. **Clone o repositório**  
     Clone este repositório para sua máquina local:
     ```bash
-    git clone https://github.com/Vinirocha388/NoteHub.git
-    cd NoteHub
+    git clone https://github.com/Vinirocha388/back-prisma-relacionamento.git
+    cd back-prisma-relacionamento
     ```
 
 2. **Instale as dependências**  
@@ -39,7 +38,7 @@ Certifique-se de ter o seguinte instalado em sua máquina:
     ```
 
 6. **Acesse o projeto**  
-    Abra o navegador e acesse `http://localhost:3000` para visualizar o NoteHub.
+    Abra o navegador e acesse `http://localhost:3000` para visualizar o back-prisma-relacionamento.
 
 ## Comandos úteis
 
