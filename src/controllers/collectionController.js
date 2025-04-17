@@ -12,21 +12,23 @@ class CollectionController {
     }
   };
 
-  create = async (req, res) => {
-    const { titulo, conteudo, cor } = req.body;
+  createCollection = async (req, res) => {
+    const { name, description, releaseYear } = req.body;
     
     
     try {
-      if (!titulo || !conteudo) {
-        return res.status(400).json({ erro: "Título e conteúdo são obrigatórios" });
+      if (!name || !releaseYear) {
+        return res.status(400).json({ erro: "nome e ano de lançamento são obrigatórios" });
       }
-      const novaCollection = await collectionModel.create(titulo, conteudo, cor);
-      res.status(201).json(novaCollection);
+      const newCollection = await collectionModel.create(name, description, releaseYear);
+      res.status(201).json(newCollection);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ erro: "Erro ao criar collection" });
+      res.status(500).json({ erro: "Erro ao criar coleção" });
     }
   };
+
+ 
 
   getById = async (req, res) => {
     const { id } = req.params;
