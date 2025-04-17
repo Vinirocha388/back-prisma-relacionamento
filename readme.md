@@ -1,5 +1,5 @@
 # 💻 Back-End Relacionamento
-Bem-vindo ao repositório do NoteHub! Este guia irá ajudá-lo a configurar e executar o projeto localmente.
+Bem-vindo ao repositório! Este guia irá ajudá-lo a configurar e executar o projeto localmente.
 
 ## Pré-requisitos
 
@@ -29,6 +29,9 @@ Certifique-se de ter o seguinte instalado em sua máquina:
     Para criar as tabelas no banco de dados, execute:
     ```bash
     npx prisma migrate dev
+    ```
+     ```bash
+    npx prisma generate
     ```
 
 5. **Inicie o servidor**  
