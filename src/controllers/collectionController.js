@@ -55,7 +55,7 @@ class CollectionController {
 
   
 
-  update = async (req, res) => {
+  updateCollection = async (req, res) => {
     const { id } = req.params; 
     const { name, description, releaseYear } = req.body; 
   
@@ -71,7 +71,7 @@ class CollectionController {
     }
   };
 
-  delete = async (req, res) => {
+  deleteCollection = async (req, res) => {
     const { id } = req.params;
     try {
       await collectionModel.delete(Number(id));
