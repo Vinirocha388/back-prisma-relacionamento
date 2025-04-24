@@ -8,7 +8,14 @@ class cardModel {
         createdAt: "desc",
       },
       include: {
-        collection: true,
+        collection: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            releaseYear: true,
+          },
+        },
       },
     });
 
@@ -23,7 +30,14 @@ class cardModel {
         id: Number(id),
       },
       include: {
-        collection: true,
+        collection: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            releaseYear: true,
+          },
+        },
       }
     });
 
