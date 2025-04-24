@@ -85,7 +85,7 @@ class CollectionModel {
     return collectionUpdated;
   }
 
-  // Remover um personagem
+  // Remover uma coleção
   async delete(id) {
     const colecao = await this.findById(id);
 
