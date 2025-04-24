@@ -95,7 +95,7 @@ class cardModel {
       return null;
     }
 
-    await prisma.cards.delete({
+    await prisma.card.delete({
       where: {
         id: Number(id),
       },

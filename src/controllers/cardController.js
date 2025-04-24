@@ -74,7 +74,7 @@ class CardController {
   deleteCard = async (req, res) => {
     const { id } = req.params;
     try {
-      await cardModel.delete(Number(id));
+      await CardModel.delete(Number(id));
       res.status(200).json({ mensagem: "Carta deletada com sucesso" });
     } catch (error) {
       console.error(error);
