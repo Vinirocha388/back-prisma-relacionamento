@@ -9,7 +9,7 @@ class CollectionModel {
       },
       include: {
         cards: true,
-      }
+      },
     });
 
 
@@ -18,16 +18,19 @@ class CollectionModel {
 
   // Obter um personagem pelo ID
   async findById(id) {
-    const personagem = await prisma.personagem.findUnique({
+    const colecao = await prisma.collection.findUnique({
       where: {
         id: Number(id),
       },
+      include: {
+        cards: true,
+      }
     });
 
-    return personagem;
+    return colecao;
   }
 
-  // Criar um novo personagem
+  // Criar uma nova coleção
   async create(
     name,
     description,

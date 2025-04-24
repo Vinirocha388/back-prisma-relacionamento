@@ -21,7 +21,7 @@ class CollectionController {
         return res.status(400).json({ erro: "nome e ano de lançamento são obrigatórios" });
       }
       const newCollection = await collectionModel.create(name, description, releaseYear);
-      res.status(201).json(newCollection);
+      res.status(201).json({message: "Coleção criada com sucesso", newCollection});
     } catch (error) {
       console.error(error);
       res.status(500).json({ erro: "Erro ao criar coleção" });
@@ -30,15 +30,15 @@ class CollectionController {
 
  
 
-  getById = async (req, res) => {
+  getCollectionById = async (req, res) => {
     const { id } = req.params;
     try {
-      const collection = await collectionModel.getById(Number(id));
-      if (!collection) return res.status(404).json({ erro: "Collection não encontrada" });
-      res.json(collection);
+      const colecao = await collectionModel.findById(Number(id));
+      if (!colecao) return res.status(404).json({ erro: "Coleção não encontrada" });
+      res.json(colecao);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ erro: "Erro ao buscar collection" });
+      console.error("Erro ao buscar coleção:", error);
+      res.status(500).json({ erro: "Erro ao buscar coleção!" });
     }
   };
 

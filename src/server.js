@@ -3,7 +3,7 @@ import cors from "cors";
 import collectionRoutes from "./routes/collectionRoutes.js";
 const app = express();
 app.use(cors());
-const port = 3000;
+const port = process.env.PORT || 4001;
 app.use(express.json());
 app.use("/colecoes", collectionRoutes);
 app.listen(port, () => {
