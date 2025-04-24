@@ -57,19 +57,20 @@ class CollectionController {
 
   update = async (req, res) => {
     const { id } = req.params; 
-    const { titulo, conteudo, favorita, cor } = req.body; 
+    const { name, description, releaseYear } = req.body; 
   
     try {
-      const collectionAtualizada = await collectionModel.update(Number(id), { titulo, conteudo, favorita, cor });
+      const collectionAtualizada = await collectionModel.update(Number(id),name, description, releaseYear);
       if (!collectionAtualizada) {
         return res.status(404).json({ erro: "Collection não encontrada" });
       }
-      res.json(collectionAtualizada); // Retorna a collection atualizada
+      res.json({message:"Coleção atualizada com sucesso", collectionAtualizada}); 
     } catch (error) {
       console.error(error);
       res.status(500).json({ erro: "Erro ao atualizar collection" });
     }
   };
+
   delete = async (req, res) => {
     const { id } = req.params;
     try {

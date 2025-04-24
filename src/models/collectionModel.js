@@ -47,7 +47,7 @@ class CollectionModel {
     return newCollection;
   }
 
-  // Atualizar um personagem
+  // Atualizar uma coleção
   async update(
     id,
     name,
@@ -60,23 +60,26 @@ class CollectionModel {
       return null;
     }
 
-    // Atualize o personagem existente com os novos dados
-    const data = {};
+    // Atualize a coleção existente com os novos dados
     if (name !== undefined) {
-      data.name = name;
+      name = name;
     }
     if (description !== undefined) {
-      data.description = description;
+      description = description;
     }
     if (releaseYear !== undefined) {
-      data.releaseYear = releaseYear;
+      releaseYear = releaseYear;
     }
 
     const collectionUpdated = await prisma.collection.update({
       where: {
         id: Number(id),
       },
-      data,
+      data:{
+        name,
+        description,
+        releaseYear,
+      }
     });
 
     return collectionUpdated;

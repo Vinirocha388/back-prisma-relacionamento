@@ -6,6 +6,6 @@ const collectionRouter = express.Router();
 collectionRouter.get("/", CollectionController.getAllCollections);
 collectionRouter.post("/", CollectionController.createCollection);
 collectionRouter.get("/:id", CollectionController.getCollectionById);
-
+collectionRouter.put("/:id", CollectionController.update);
 
 export default collectionRouter;
