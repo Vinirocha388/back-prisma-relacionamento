@@ -17,6 +17,17 @@ async findById(id) {
     return user;
   }
 
+  //obter um usuariopelo email
+    async findByEmail(email) {
+        const user = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+        });
+    
+        return user;
+    }
+
   async create(data) {
     const user = await prisma.user.create({
       data,
