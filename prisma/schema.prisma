@@ -12,59 +12,70 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-model task{
-  id Int @id @default(autoincrement())
-  descricao String 
+
+model task {
+  id        Int     @id @default(autoincrement())
+  descricao String
   concluida Boolean @default(false)
 
   criadaEm DateTime @default(now())
 
   @@map("tasks")
-
 }
+
 model Nota {
-  id            Int       @id @default(autoincrement())
-  titulo        String
-  conteudo      String
-  favorita      Boolean   @default(false)
-  cor           String?   
-  criadaEm      DateTime  @default(now())
-  atualizadaEm  DateTime  @updatedAt
+  id           Int      @id @default(autoincrement())
+  titulo       String
+  conteudo     String
+  favorita     Boolean  @default(false)
+  cor          String?
+  criadaEm     DateTime @default(now())
+  atualizadaEm DateTime @updatedAt
 
   @@map("notas")
 }
 
 model Collection {
-  id            Int         @id @default(autoincrement())
-  name          String      @unique
-  description   String?
-  releaseYear   Int
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  releaseYear Int
 
-//Segundo marcação de dados da tabela
+  //Segundo marcação de dados da tabela
   cards Card[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("collections")
-
 }
 
-
 model Card {
-  id            Int         @id @default(autoincrement())
-  name          String      @unique
+  id            Int     @id @default(autoincrement())
+  name          String  @unique
   rarity        String
-  attackPoints  Int 
+  attackPoints  Int
   defensePoints Int
   imageUrl      String?
 
-//primeiro configuração da tabela dependente
-  collectionId  Int         
-  collection Collection     @relation(fields:[collectionId], references: [id], onDelete: Cascade ,onUpdate: Cascade)
+  //primeiro configuração da tabela dependente
+  collectionId Int
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("cards")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
