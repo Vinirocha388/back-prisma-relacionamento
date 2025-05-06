@@ -1,6 +1,6 @@
 import express from "express";
 import CollectionController from "../controllers/collectionController.js";
-
+import authMiddleware from "../middleware/authMiddleware.js";
 const collectionRouter = express.Router();
 
 collectionRouter.get("/", CollectionController.getAllCollections);

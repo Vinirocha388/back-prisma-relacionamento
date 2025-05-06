@@ -10,10 +10,11 @@ const router = express.Router();
 
 //rotas publicas
 router.use("/auth", authRouter);
+router.use("/collection", collectionRouter);
+router.use("/cards", cardsRouter);
 
 //rotas privadas
 router.use(authMiddleware); // Middleware de autenticação para rotas privadas
-router.use("/collection", collectionRouter);
-router.use("/cards", cardsRouter);
+
 
 export default router;
