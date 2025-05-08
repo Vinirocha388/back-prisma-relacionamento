@@ -2,7 +2,7 @@ import prisma from "../../prisma/client.js";
 
 class CardModel {
   // Obter todas as cartas
-  async findAll(raridade, ataque, pagina, limite) {
+  async findAll(raridade, ataque, pagina, limite, name) {
     if (Number(pagina) < 1) {
       pagina = 1;
     }
@@ -24,6 +24,12 @@ class CardModel {
     if (ataque) {
       where.attackPoints = {
         gte: Number(ataque),
+      };
+    }
+
+    if(name) {
+      where.name = {
+        contains: name
       };
     }
 
@@ -64,7 +70,7 @@ take: Number(limite),
     // console.log(cartas);
     const totalExeibidos = cartas.length;
     const totalGeral = await prisma.card.count({ where})
-    return {cartas,totalExeibidos, totalGeral};
+    return {totalExeibidos,totalGeral,cartas};
   }
 
   // Obter uma carta pelo ID
