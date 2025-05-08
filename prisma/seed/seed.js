@@ -4,6 +4,10 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Iniciando o seed...");
 
+await prisma.card.deleteMany({});
+await prisma.collection.deleteMany({});
+
+
   // Criar coleções de diferentes temáticas
   const nbaLegends = await prisma.collection.create({
     data: {
