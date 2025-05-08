@@ -1,91 +1,146 @@
 import CardModel from "../models/cardModel.js";
 
-
 class CardController {
-  async getAllCards (req, res) {
-    const pagina = req.query.page
-    console.log("pagina", pagina)
+  // GET /cartas
+  async getAllCards(req, res) {
+    const raridade = req.query.raridade;
+    console.log("Raridade:", raridade);
 
-    const limite = req.query.limit
-    console.log("limite", limite)
+    const ataque = req.query.ataque;
+
     try {
-      const cards = await CardModel.findAll();
-      res.json(cards);
+      const cartas = await CardModel.findAll(raridade, ataque);
+      res.json(cartas);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ erro: "Erro ao buscar as cards" });
+      console.error("Erro ao buscar as cartas:", error);
+      res.status(500).json({ error: "Erro ao buscar as cartas" });
     }
-  };
+  }
 
-  createCard = async (req, res) => {
-    const { name,rarity,attackPoints, defensePoints, imageUrl,collectionId} = req.body;
-    
-    
+  // GET /cartas/:id
+  async getCardById(req, res) {
     try {
-      if (!name || !rarity || !attackPoints || !defensePoints || !collectionId) {
-        return res.status(400).json({ erro: "Campos obrigatórios não definidos" });
+      const { id } = req.params;
+
+      const carta = await CardModel.findById(id);
+
+      if (!carta) {
+        return res.status(404).json({ error: "Carta não encontrada!" });
       }
-      const newCard = await CardModel.create(name,rarity,attackPoints, defensePoints, imageUrl,collectionId);
-      res.status(201).json({message: "Carta criada com sucesso", newCard});
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ erro: "Erro ao criar carta" });
-    }
-  };
 
- 
-
-  getCardById = async (req, res) => {
-    const { id } = req.params;
-    try {
-      const carta = await CardModel.findById(Number(id));
-      if (!carta) return res.status(404).json({ erro: "Carta não encontrada" });
       res.json(carta);
     } catch (error) {
       console.error("Erro ao buscar carta:", error);
-      res.status(500).json({ erro: "Erro ao buscar carta!" });
+      res.status(500).json({ error: "Erro ao buscar carta!" });
     }
-  };
+  }
 
-  searchByTerm = async (req, res) => {
-    const { term } = req.query;
+  // POST /cartas
+  async createCard(req, res) {
     try {
-      const carta = await CardModel.searchByTerm(term);
-      res.json(carta);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ erro: "Erro ao buscar carta" });
-    }
-  };
+      // Captura dos dados do corpo da requisição (frontend)
+      const {
+        name,
+        rarity,
+        attackPoints,
+        defensePoints,
+        imageUrl,
+        collectionId,
+      } = req.body;
 
-  
-
-  updateCard = async (req, res) => {
-    const { id } = req.params; 
-    const {name,rarity,attackPoints, defensePoints, imageUrl,collectionId } = req.body; 
-  
-    try {
-      const cartaAtualizada = await CardModel.update(Number(id),name,rarity,attackPoints, defensePoints, imageUrl,collectionId);
-      if (!cartaAtualizada) {
-        return res.status(404).json({ erro: "Carta não encontrada" });
+      // Verifica se todos os campos da carta foram fornecidos
+      if (
+        !name ||
+        !rarity ||
+        !attackPoints ||
+        !defensePoints ||
+        !collectionId
+      ) {
+        return res.status(400).json({
+          error:
+            "Os campos nome, raridade, pontos de ataque, pontos de defesa e o id da coleção são obrigatórios",
+        });
       }
-      res.json({message:"Carta atualizada com sucesso", cartaAtualizada}); 
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ erro: "Erro ao atualizar carta" });
-    }
-  };
 
-  deleteCard = async (req, res) => {
-    const { id } = req.params;
-    try {
-      await CardModel.delete(Number(id));
-      res.status(200).json({ mensagem: "Carta deletada com sucesso" });
+      // Criar a nova Carta
+      const newCard = await CardModel.create(
+        name,
+        rarity,
+        attackPoints,
+        defensePoints,
+        imageUrl,
+        collectionId
+      );
+
+      if (!newCard) {
+        return res.status(400).json({ error: "Erro ao criar carta" });
+      }
+
+      res.status(201).json({
+        message: "Carta criada com sucesso",
+        newCard,
+      });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ erro: "Erro ao deletar carta" });
+      console.error("Erro ao criar Carta:", error);
+      res.status(500).json({ error: "Erro ao criar Carta" });
     }
-  };
+  }
+
+  // PUT /cartas/:id
+  async updateCard(req, res) {
+    try {
+      const { id } = req.params;
+      const {
+        name,
+        rarity,
+        attackPoints,
+        defensePoints,
+        imageUrl,
+        collectionId,
+      } = req.body;
+
+      // Atualizar a Carta
+      const updatedCard = await CardModel.update(
+        id,
+        name,
+        rarity,
+        attackPoints,
+        defensePoints,
+        imageUrl,
+        collectionId
+      );
+
+      if (!updatedCard) {
+        return res.status(404).json({ error: "Carta não encontrada" });
+      }
+
+      res.json(updatedCard);
+    } catch (error) {
+      console.error("Erro ao atualizar Carta:", error);
+      res.status(500).json({ error: "Erro ao atualizar Carta!" });
+    }
+  }
+
+  // DELETE /cartas/:id
+  async deleteCard(req, res) {
+    try {
+      const { id } = req.params;
+
+      // Remover a Carta
+      const result = await CardModel.delete(id);
+
+      if (!result) {
+        return res.status(404).json({ error: "Carta não encontrada!" });
+      }
+
+      res.status(200).json({
+        message: "Carta removida com sucesso",
+      });
+    } catch (error) {
+      console.error("Erro ao remover Carta:", error);
+      res.status(500).json({ error: "Erro ao remover Carta!" });
+    }
+  }
 }
 
 export default new CardController();
